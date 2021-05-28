@@ -1,5 +1,5 @@
 from lib import mymath
-import sys
+import sys, os
 
 # https://docs.python.org/3/tutorial/modules.html#executing-modules-as-scripts ''executing-modules-as-scripts''
 
