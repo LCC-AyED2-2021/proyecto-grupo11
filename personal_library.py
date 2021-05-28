@@ -26,4 +26,6 @@ def create():
 def search():
     return True
 
-#hola
+#hola Lucas
+
+#xd si son en tiempo real
