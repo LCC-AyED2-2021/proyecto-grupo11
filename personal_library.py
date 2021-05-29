@@ -2,7 +2,7 @@ import sys
 
 # Leer los argumentos pasados por consola, verificar y ejecutar funciones
 
-if len(sys.argv) == 3:
+if len(sys.argv) == 3 and False:
     if sys.argv[1] == '-create':
         # Ejecutar '-create'
         create()
@@ -23,3 +23,10 @@ def create():
 
 def search():
     return True
+
+# Test
+from lib import trie
+T = trie.Trie
+trie.insert(T,'hola')
+for i in range(1123):
+    print('hi')
