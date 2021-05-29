@@ -10,9 +10,9 @@ if len(sys.argv) == 3:
         # Ejecutar '-search'
         search()
     else:
-        print(f'Los argumentos dados no son validos\nUse "-create <local_path>" o "-search <key_word>"')
+        print(f'Los argumentos dados no son válidos.\nUtilice "-create <local_path>" o "-search <key_word>"')
 else:
-    print(f'Los argumentos dados no son validos\nUse "-create <local_path>" o "-search <key_word>"')
+    print(f'Los argumentos dados no son válidos.\nUtilice "-create <local_path>" o "-search <key_word>"')
 
 
 # Definir funciones principales
