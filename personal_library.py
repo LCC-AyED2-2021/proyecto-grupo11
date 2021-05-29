@@ -1,23 +1,21 @@
-from lib import mymath
-import sys, os
+import sys
 
-# https://docs.python.org/3/tutorial/modules.html#executing-modules-as-scripts ''executing-modules-as-scripts''
+# Leer los argumentos pasados por consola, verificar y ejecutar funciones
 
-# Verify arguments from console to execute corresponding task
 if len(sys.argv) == 3:
     if sys.argv[1] == '-create':
-        # Execute create fn
+        # Ejecutar '-create'
         create()
     elif sys.argv[1] == '-search':
-        # Execute search fn
+        # Ejecutar '-search'
         search()
     else:
-        print(f'Invalid argument.\nUse "-create <local_path>" or "-search <key_word>"')
+        print(f'Los argumentos dados no son validos\nUse "-create <local_path>" o "-search <key_word>"')
 else:
-    print(f'Invalid argument.\nUse "-create <local_path>" or "-search <key_word>"')
+    print(f'Los argumentos dados no son validos\nUse "-create <local_path>" o "-search <key_word>"')
 
 
-# Define functions
+# Definir funciones principales
 
 def create():
     return True
@@ -25,9 +23,3 @@ def create():
 
 def search():
     return True
-
-#hola Lucas
-
-#xd si son en tiempo real
-
-#otro test xd
