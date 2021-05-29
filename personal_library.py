@@ -23,9 +23,3 @@ def create():
 
 def search():
     return True
-
-#test 123
-#t
-
-def hola():
-    return False
