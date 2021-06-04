@@ -39,18 +39,6 @@ print(nodoDePalabraInsertada.key) # Estoy guardando como key el resultado de lib
 print(nodoDePalabraInsertada.docsWhereApears)
 print(nodoDePalabraInsertada.children)
 
-# Test fuerza bruta
-for i in range(100_000):
-    trie.insert(T, str(i))
-
-# Estoy pensando en crear una estructura que simplifique la cantidad de elementos, ya que por cada nodo se hace este camino:
-# trie.trieNode.children.array[i].linkedlist.dictionaryNode.trieNode
-# Capaz simplificarlo en una sola clase que cumpla de linkedlist, dictionaryNode y trieNode
-# Sea como sea, esto lo estoy implementando en los proximos dias. De todas maneras, la funcion trie.insert siempre les va a devolver
-# el pointer de la ultima palabra, que es lo que se necesita para modificar el docsWhereApears.
-# Cualquier cosa me dicen
-
-
 #Esto copia los titulos de los textos que estan en una carpeta, despues abre cada documento y los lee para despues printearlos
 #voy a trabajar con string de python porque listdir no me deja trabajar con String()
 
