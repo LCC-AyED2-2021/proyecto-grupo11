@@ -31,7 +31,7 @@ def search():
 
 
 from lib import trie
-T = trie.Trie
+T = trie.Trie()
 nodoDePalabraInsertada = trie.insert(T, 'Hola')
 
 print(nodoDePalabraInsertada)
