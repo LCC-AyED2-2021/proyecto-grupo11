@@ -4,45 +4,42 @@
 # de los documentos donde la palabra aparece, y cuantas veces aparece.
 ########
 
-# Trie data structure implementation
-import lib.linkedlist as LL
-import lib.algo1 as algo
-import lib.mydictionary as D
 from lib.latinHash import latinHash as LHash
+import lib.algo1 as algo
 
-# Define classes
+m = 11 # Longitud del diccionario
+A = ((5**.5 - 1)/2) # Golden ratio φ
+
+# Definir clases
 
 class Trie:
     root = None
 
 
 class TrieNode:
-    parent = None
+    nextTrieNode = None # Analogo a un nodo de una linked list
     children = None
     key = None
     docsWhereApears = None
 
-# Define functions
+# Definir funciones
 
 
-def insert(trie, element):
+def insert(trie, text):
     '''
     Explicación:
         Inserta un elemento en el Trie dado.
     Parametros:
         trie: El Trie en donde se insertará el elemento.
-        element: La palabra a insertar.
+        text: La palabra a insertar. (string)
     Return:
-        El puntero de la ultima letra de la palabra insertada.
+        El puntero del nodo de la ultima letra de la palabra insertada.
     '''
     # Caso Trie no inicializado
     if not trie.root:
         # Se inicializa, children es una hash table
         trie.root = TrieNode()
-        trie.root.children = algo.Array(11, LL.LinkedList())
-
-    # Convertir el elemento dado a text usando algo1
-    text = algo.String(element)
+        trie.root.children = algo.Array(m, TrieNode())
 
     # Comparar cada nivel del trie con el indice actual de text
     currentLevel = trie.root
@@ -50,15 +47,61 @@ def insert(trie, element):
     for i in range(0, len(text)):
         # Buscar el caracter en el nivel actual
         caracter = LHash(text[i])
-        hashCaracter = D.h(caracter)
-        nodoDelCaracter = D.getNodeByKey(currentLevel.children[hashCaracter], caracter)
+        hashCaracter = h(caracter)
 
+        # Buscar como si fuese una LList el caracter en las colisiones del diccionario.
+        nodoDelCaracter = None
+        nodoActual = currentLevel.children[hashCaracter]
+        while nodoActual:
+            if nodoActual.key == caracter:
+                nodoDelCaracter = nodoActual
+                break
+            else:
+                nodoActual = nodoActual.nextTrieNode
+
+        # Verificar si ese caracter ya existía, sino se lo crea
         if not nodoDelCaracter:
-            # Create the new trie node
-            currentLevel = (D.insert(currentLevel.children, caracter, caracter, currentLevel)).value
-            
+            # Crear el nuevo trie node
+            currentLevel = addTrieNode(currentLevel.children, caracter)
         else:
-            currentLevel = nodoDelCaracter.value
+            currentLevel = nodoDelCaracter
 
     # Retorna el pointer de la ultima letra
     return currentLevel
+
+def h(key):
+    '''
+    Explanation:
+        Genera un hash en funcion de un entero dado.
+    Info:
+        This hash function uses 'The multiplication method'
+        where (m) is the length of the dictionary and A is φ.
+    Params:
+        key: The integer from which the hash is to be obtained.
+    '''
+    return int(m*(key*A % 1))
+
+def addTrieNode(dictionary, key):
+    '''
+    Explanation:
+        Crea un TrieNode y lo inserta en una LList de TrieNodes
+    Params:
+        dictionary: El pointer del primer TrieNode de la lista
+        key: El 
+    Return:
+        El pointer del nodo creado.
+    '''
+    # Obtain the hash of the given key
+    index = h(key)
+
+    # Create the new Trie node
+    newNode = TrieNode()
+    newNode.children = algo.Array(m, TrieNode())
+    newNode.key = key
+
+    # Add the new node to the list of TrieNodes
+    newNode.nextTrieNode = dictionary[index]
+    dictionary[index] = newNode
+
+    # Return the pointer of the new node
+    return newNode
