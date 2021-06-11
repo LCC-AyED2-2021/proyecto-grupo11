@@ -1,23 +1,25 @@
 ########
 # Esta implementación esta modificada para trabajar con TrieNodes especiales,
-# que poseen un atributo (docsWhereApears) que corresponde a una linked list, con los nombres 
+# que poseen un atributo (docsWhereApears) que corresponde a una linked list, con los nombres
 # de los documentos donde la palabra aparece, y cuantas veces aparece.
 ########
 
 from lib.latinHash import latinHash as LHash
 import lib.algo1 as algo
 
-m = 11 # Longitud del diccionario
-A = ((5**.5 - 1)/2) # Golden ratio φ
+# Longitud del diccionario sqrt(61) (ascii 7-bits, latin basico sin diferenciar mayúsculas de minúsculas)
+m = 8
+A = ((5**.5 - 1)/2)  # Golden ratio φ
 
 # Definir clases
+
 
 class Trie:
     root = None
 
 
 class TrieNode:
-    nextTrieNode = None # Analogo a un nodo de una linked list
+    nextTrieNode = None  # Analogo a un nodo de una linked list
     children = None
     key = None
     docsWhereApears = None
@@ -42,7 +44,7 @@ def insert(trie, text):
         trie.root.children = algo.Array(m, TrieNode())
 
     # Comparar cada nivel del trie con el indice actual de text
-    currentLevel = trie.root
+    nivelActual = trie.root
 
     for i in range(0, len(text)):
         # Buscar el caracter en el nivel actual
@@ -51,7 +53,7 @@ def insert(trie, text):
 
         # Buscar como si fuese una LList el caracter en las colisiones del diccionario.
         nodoDelCaracter = None
-        nodoActual = currentLevel.children[hashCaracter]
+        nodoActual = nivelActual.children[hashCaracter]
         while nodoActual:
             if nodoActual.key == caracter:
                 nodoDelCaracter = nodoActual
@@ -62,12 +64,13 @@ def insert(trie, text):
         # Verificar si ese caracter ya existía, sino se lo crea
         if not nodoDelCaracter:
             # Crear el nuevo trie node
-            currentLevel = addTrieNode(currentLevel.children, caracter)
+            nivelActual = addTrieNode(nivelActual.children, caracter)
         else:
-            currentLevel = nodoDelCaracter
+            nivelActual = nodoDelCaracter
 
     # Retorna el pointer de la ultima letra
-    return currentLevel
+    return nivelActual
+
 
 def h(key):
     '''
@@ -80,6 +83,7 @@ def h(key):
         key: The integer from which the hash is to be obtained.
     '''
     return int(m*(key*A % 1))
+
 
 def addTrieNode(dictionary, key):
     '''
