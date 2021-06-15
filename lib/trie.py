@@ -7,7 +7,7 @@
 from lib.latinHash import latinHash as LHash
 import lib.algo1 as algo
 
-# Longitud del diccionario sqrt(61) (ascii 7-bits, latin basico sin diferenciar mayúsculas de minúsculas)
+# Longitud del diccionario sqrt(61) (latin basico sin diferenciar mayúsculas de minúsculas)
 m = 8
 A = ((5**.5 - 1)/2)  # Golden ratio φ
 
@@ -109,3 +109,46 @@ def addTrieNode(dictionary, key):
 
     # Return the pointer of the new node
     return newNode
+
+
+def getWord(trie, text):
+    '''
+    Explicación:
+        Busca una cadena en un Trie
+    Parametros:
+        trie: El Trie en donde se buscará la cadena.
+        text: La cadena a buscar. (string)
+    Return:
+        La Linked List en donde la cadena dada aparece en el trie.
+        Si no llegase a existir, retorna 'None'.
+    '''
+    # Comparar cada nivel del trie con el indice actual de text
+    nivelActual = trie.root
+
+    for i in range(0, len(text)):
+        # Buscar el caracter en el nivel actual
+        caracter = LHash(text[i])
+        hashCaracter = h(caracter)
+
+        # Buscar como si fuese una LList el caracter en las colisiones del diccionario.
+        nodoDelCaracter = None
+        nodoActual = nivelActual.children[hashCaracter]
+        while nodoActual:
+            if nodoActual.key == caracter:
+                nodoDelCaracter = nodoActual
+                break
+            else:
+                nodoActual = nodoActual.nextTrieNode
+
+        # Verificar si ese caracter ya existía, sino se lo crea
+        if not nodoDelCaracter:
+            # No existe el string en el trie, falta el caracter actual
+            break
+        else:
+            nivelActual = nodoDelCaracter
+
+    # Verificar si el string fue encontrado, de ser asi, retornar el valor de docsWhereApears
+    resultado = None
+    if nodoDelCaracter: # corresponde al ultimo caracter
+        resultado = nodoDelCaracter.docsWhereApears
+    return resultado
