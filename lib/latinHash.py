@@ -1,12 +1,12 @@
 
 def latinHash(caracter):
     '''
-    # Esta funcion básicamente limita la funcion de python ord(), solo retornando valores numéricos...
-    # ...cuando correspondan al conjunto de caracteres del Latin Básico y extendido (A) [Unicode code points]
-    # https://en.wikipedia.org/wiki/List_of_Unicode_characters
-    # En el caso de las letras, siempre devuelve el correspondiente a la Mayúscula
-    # Esta funcion retorna valores entre [0,125] cuando recibe caracteres del Latin extendido B en adelante.
-    # Si recibe valores correspondientes a estos sets, no los corrige para coincidir mayusculas y minusculas [126, ...]
+    Esta funcion básicamente limita la funcion de python ord(), solo retornando valores numéricos...
+    ...cuando correspondan al conjunto de caracteres del Latin Básico y extendido (A) [Unicode code points]
+    https://en.wikipedia.org/wiki/List_of_Unicode_characters
+    En el caso de las letras, siempre devuelve el correspondiente a la Mayúscula
+    Esta funcion retorna valores entre [0,125] cuando recibe caracteres del Latin extendido B en adelante.
+    Si recibe valores correspondientes a estos sets, no los corrige para coincidir mayusculas y minusculas [126, ...]
     '''
     # Calcular primeramente el codigo unicode
     codigoOriginal = ord(caracter)
