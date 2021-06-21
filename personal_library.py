@@ -27,11 +27,11 @@ def create(local_path):
     print("Path inicial:",os.getcwd())
     if os.path.exists(local_path): #nos fijamos si la path que nos pasó el usuario existe, si existe continuamos con el algoritmo
 
-        estructura= algo1.String("test")
+        estructura= algo1.String("test") #esto va a ser remplazado por el trie, solo es un test
         os.chdir(local_path) #cambiamos la directory en donde estamos trabajando para crear la biblioteca en el path que quiere el usuario
         with  open("biblioteca.txt", "bw") as crear_biblioteca: #creamos el archivo de la biblioteca en binario y escribimos la estructura que hicimos dentro de ella
             pickle.dump(estructura, crear_biblioteca)
-        os.chdir(path_codigo) #volvemos a la path en donde tenemos el codigo por si nos sirve
+        os.chdir(path_codigo) #volvemos a la path en donde tenemos el codigo por las dudas
     else: #sino mandamos un error
         print("Error no se encontró el path indicado")
 
