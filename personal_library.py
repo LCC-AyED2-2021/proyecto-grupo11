@@ -1,11 +1,14 @@
 import sys
+import os
+import pickle
+from lib import algo1
 
 # Leer los argumentos pasados por consola, verificar y ejecutar funciones
 
 if len(sys.argv) == 3 and False:
     if sys.argv[1] == '-create':
         # Ejecutar '-create'
-        create()
+        create(sys.argv[2])
     elif sys.argv[1] == '-search':
         # Ejecutar '-search'
         search()
@@ -17,7 +20,21 @@ else:
 
 # Definir funciones principales
 
-def create():
+def create(local_path):
+
+    path_codigo= os.getcwd() #salvamos la path en donde tenemos el codigo
+    os.chdir("C:/") #empezamos a buscar el local path en el disco local C:/
+    print("Path inicial:",os.getcwd())
+    if os.path.exists(local_path): #nos fijamos si la path que nos pasó el usuario existe, si existe continuamos con el algoritmo
+
+        estructura= algo1.String("test")
+        os.chdir(local_path) #cambiamos la directory en donde estamos trabajando para crear la biblioteca en el path que quiere el usuario
+        with  open("biblioteca.txt", "bw") as crear_biblioteca: #creamos el archivo de la biblioteca en binario y escribimos la estructura que hicimos dentro de ella
+            pickle.dump(estructura, crear_biblioteca)
+        os.chdir(path_codigo) #volvemos a la path en donde tenemos el codigo por si nos sirve
+    else: #sino mandamos un error
+        print("Error no se encontró el path indicado")
+
     return True
 
 
