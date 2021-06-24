@@ -152,3 +152,27 @@ def getWord(trie, text):
     if nodoDelCaracter: # corresponde al ultimo caracter
         resultado = nodoDelCaracter.docsWhereApears
     return resultado
+
+def InsertionSort(Q):
+    if Q==None:
+        return None
+    else:
+        NodeA=Q.nextNode #empieza del segundo
+        #Bucle que se ejecutará por cada nodo de la lista
+        while NodeA!=None:
+            NodeB=Q
+            #Bucle que se ejecutará hasta el current node
+            while NodeB!=NodeA:
+                if NodeA.key<NodeB.key:
+                #Asignacion de valores si cumple la condicion
+                    NodeAux=Node()
+                    NodeAux.value=NodeB.value
+                    NodeAux.key=NodeB.key
+                    NodeAux.nextNode=NodeB.nextNode
+                    NodeB.value=NodeA.value
+                    NodeB.key=NodeA.key
+                    NodeA.value=NodeAux.value
+                    NodeA.key=NodeAux.key
+                NodeB=NodeB.nextNode
+            NodeA=NodeA.nextNode
+        return Q

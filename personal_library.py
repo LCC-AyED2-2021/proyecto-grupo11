@@ -17,7 +17,16 @@ def create(local_path):
 
 
 
-def search():
+def search(palabra):
+    biblioteca=None
+    with open("biblioteca.bin", "br") as leer_biblioteca:
+        biblioteca=pickle.load(leer_biblioteca)
+    lista=trie.getWord(biblioteca,palabra)
+    lista=trie.InsertionSort(lista)
+    while lista.nextNode!=None:
+        print(lista.value,":", end="")
+        print(lista.key, ",", end="")
+        lista=lista.nextNode
     return True
 
 
@@ -97,7 +106,7 @@ if len(sys.argv) == 3:
         create(sys.argv[2])
     elif sys.argv[1] == '-search':
         # Ejecutar '-search'
-        search()
+        search(sys.argv[2])
     else:
         print(f'Los argumentos dados no son válidos.\nUtilice "-create <local_path>" o "-search <key_word>"')
 else:
