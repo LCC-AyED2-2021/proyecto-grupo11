@@ -8,19 +8,15 @@ from lib import trie
 
 def create(local_path):
 
-    path_codigo= os.getcwd() #salvamos la path en donde tenemos el codigo
-    os.chdir("C:/") #empezamos a buscar el local path en el disco local C:/
-    print("Path inicial:",os.getcwd())
     if os.path.exists(local_path): #nos fijamos si la path que nos pasó el usuario existe, si existe continuamos con el algoritmo
 
-        biblioteca= crear_estructura(path_codigo)
-        os.chdir("C:/" + local_path) #cambiamos la directory en donde estamos trabajando para crear la biblioteca en el path que quiere el usuario
+        biblioteca= crear_estructura(local_path)
         with  open("biblioteca.txt", "bw") as crear_biblioteca: #creamos el archivo de la biblioteca en binario y escribimos la estructura que hicimos dentro de ella
             pickle.dump(biblioteca, crear_biblioteca)
-        os.chdir(path_codigo) #volvemos a la path en donde tenemos el codigo por las dudas
     else: #sino mandamos un error
         print("Error no se encontró el path indicado")
 
+    print("library created successfully")
     return True
 
 
@@ -32,6 +28,8 @@ def search():
 def leer_palabras(documento, estructura): #lee cada palabra del documento y la inserta en la estructura
 
     with open(documento, encoding="utf8") as documento_a_leer: #abre el documento y lee linea por linea (se usa la opcion utf8 para no tener problemas con cierto caracteres)
+        #nota: lineas tiene dos parametro porque el primero es la linea en donde estamos del documento y el segundo es la letra en donde estamos de la linea
+        
         lineas = documento_a_leer.readlines()
         palabra = algo1.String("") #empezamos la variable palabra con una string vacia
         for i in range(0, len(lineas)):#recorremos todas las lineas del documento
@@ -69,15 +67,15 @@ def caracteres_separadores(caracter): #funcion que nos dice si un caracter perte
     else:
         return False
 
-def crear_estructura(path_codigo):        
-    #Esto copia los titulos de los textos que estan en una carpeta, despues abre cada documento, los lee y inserta cada palabra en nuestra estructura que pensamos
+def crear_estructura(local_path):        
+    #Esto copia los titulos de los textos que estan en la carpeta que tiene el local_path, despues abre cada documento, los lee y inserta cada palabra en nuestra estructura que pensamos
     #voy a trabajar con string de python cuando uso funciones de os porque estas no me deja trabajar con String()
+    
     estructura = trie.Trie()
-    os.chdir(path_codigo) #esto nos desplaza a la directory donde tenemos personal_library.py así podemos encontrar archivosTest
-    camino = "archivosTest"
-    #nota: se cambian todas las "\" a "/" del path porque sino da error
 
-    lista_documentos = os.listdir(camino)
+    #nota: se cambian todas las "\" a "/" del path porque sino da error
+    print("Lista de documentos en este path:")
+    lista_documentos = os.listdir(local_path)
 
     print(lista_documentos)
     #nota: se usa una lista de python porque es lo que devuelve listdir, esta puede ser usada similar a un array en donde
@@ -86,7 +84,7 @@ def crear_estructura(path_codigo):
     #acá abrimos los documentos
     for documentos in range(0, 4):
         print("Texto: ",documentos)
-        documento_a_leer = camino + "/" + lista_documentos[documentos]
+        documento_a_leer = local_path + "/" + lista_documentos[documentos]
 
         leer_palabras(documento_a_leer, estructura)
 
