@@ -29,27 +29,17 @@ def leer_palabras(documento, estructura): #lee cada palabra del documento y la i
 
     with open(documento, encoding="utf8") as documento_a_leer: #abre el documento y lee linea por linea (se usa la opcion utf8 para no tener problemas con cierto caracteres)
         #nota: lineas tiene dos parametro porque el primero es la linea en donde estamos del documento y el segundo es la letra en donde estamos de la linea
-        
+
         lineas = documento_a_leer.readlines()
         palabra = algo1.String("") #empezamos la variable palabra con una string vacia
         for i in range(0, len(lineas)):#recorremos todas las lineas del documento
 
-            if i != len(lineas)-1: #esto se hace porque cuando llegamos a la ultima linea no vamos a tener un \n el cual normalmente se encuentra al final de una linea y hace una comparacion más innecesaria
-                
-                for j in range(0, len(lineas[i])-1): #recorremos todos los caracteres del documento
-                    if not caracteres_separadores(lineas[i][j]): #si el caracter en donde estamos no es ninguno de los caracteres que separa palabras o que no sirve a formar palabras entonces lo agregamos a la palabra
-                        palabra = algo1.concat(palabra, algo1.String(lineas[i][j]))
-                    else: #sino insertamos la palabra que obtuvismo hasta este punto y reseteamos la variable palabra
-                        trie.insert(estructura, palabra)
-                        palabra = algo1.String("")
-            else: #estamos en la ultima linea
-
-                for j in range(0, len(lineas[i])):
-                    if not caracteres_separadores(lineas[i][j]):
-                        palabra = algo1.concat(palabra, algo1.String(lineas[i][j]))
-                    else:
-                        trie.insert(estructura, palabra)
-                        palabra = algo1.String("")
+            for j in range(0, len(lineas[i])): #recorremos todos los caracteres del documento
+                if not caracteres_separadores(lineas[i][j]): #si el caracter en donde estamos no es ninguno de los caracteres que separa palabras o que no sirve a formar palabras entonces lo agregamos a la palabra
+                    palabra = algo1.concat(palabra, algo1.String(lineas[i][j]))
+                else: #sino insertamos la palabra que obtuvismo hasta este punto y reseteamos la variable palabra
+                    trie.insert(estructura, palabra)
+                    palabra = algo1.String("")
 
     return estructura
 
@@ -62,7 +52,7 @@ def caracteres_separadores(caracter): #funcion que nos dice si un caracter perte
     # caso especial ' o ’ 
     # emails
     # urls ?
-    if algo1.strcmp(caracter, algo1.String(" ")) or algo1.strcmp(caracter, algo1.String("(")) or algo1.strcmp(caracter, algo1.String(")")) or algo1.strcmp(caracter, algo1.String("[")) or algo1.strcmp(caracter, algo1.String("]")) or algo1.strcmp(caracter, algo1.String("{")) or algo1.strcmp(caracter, algo1.String("}")) or algo1.strcmp(caracter, algo1.String("+")) or algo1.strcmp(caracter, algo1.String("=")) or algo1.strcmp(caracter, algo1.String("*")) or algo1.strcmp(caracter, algo1.String("/")) or algo1.strcmp(caracter, algo1.String("@")) or algo1.strcmp(caracter, algo1.String("#")) or algo1.strcmp(caracter, algo1.String("&")) or algo1.strcmp(caracter, algo1.String(".")) or algo1.strcmp(caracter, algo1.String(",")) or algo1.strcmp(caracter, algo1.String(";")) or algo1.strcmp(caracter, algo1.String(":")) or algo1.strcmp(caracter, algo1.String("?")) or algo1.strcmp(caracter, algo1.String("!")) or algo1.strcmp(caracter, algo1.String('"')):
+    if algo1.strcmp(caracter, algo1.String(" ")) or algo1.strcmp(caracter, algo1.String("(")) or algo1.strcmp(caracter, algo1.String(")")) or algo1.strcmp(caracter, algo1.String("[")) or algo1.strcmp(caracter, algo1.String("]")) or algo1.strcmp(caracter, algo1.String("{")) or algo1.strcmp(caracter, algo1.String("}")) or algo1.strcmp(caracter, algo1.String("+")) or algo1.strcmp(caracter, algo1.String("=")) or algo1.strcmp(caracter, algo1.String("*")) or algo1.strcmp(caracter, algo1.String("/")) or algo1.strcmp(caracter, algo1.String("@")) or algo1.strcmp(caracter, algo1.String("#")) or algo1.strcmp(caracter, algo1.String("&")) or algo1.strcmp(caracter, algo1.String(".")) or algo1.strcmp(caracter, algo1.String(",")) or algo1.strcmp(caracter, algo1.String(";")) or algo1.strcmp(caracter, algo1.String(":")) or algo1.strcmp(caracter, algo1.String("?")) or algo1.strcmp(caracter, algo1.String("!")) or algo1.strcmp(caracter, algo1.String('"')) or caracter == "\n":
         return True
     else:
         return False
@@ -82,7 +72,7 @@ def crear_estructura(local_path):
     #tenemos subindices, en este caso en particular cada subindice va a tener un titulo de un documento
 
     #acá abrimos los documentos
-    for documentos in range(0, 4):
+    for documentos in range(0, len(lista_documentos)):
         print("Texto: ",documentos)
         documento_a_leer = local_path + "/" + lista_documentos[documentos]
 
