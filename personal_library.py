@@ -39,22 +39,25 @@ def leer_palabras(documento, estructura):
     with open(documento, encoding="utf8") as documento_a_leer:  # Abre el documento y lee linea por linea (se usa la opción UTF-8 para no tener problemas con cierto caracteres)
         lineas = documento_a_leer.readlines()  # Nota: lineas tiene dos parametros porque el primero es la linea en donde estamos del documento y el segundo es la letra en donde estamos de la linea
         palabra = algo1.String("")  # Empezamos la variable palabra con una string vacía
-
+        palabra_vacia = True
         for i in range(0, len(lineas)):  # Recorremos todas las lineas del documento
             for j in range(0, len(lineas[i])):  # Recorremos todos los caracteres de la linea
                 if not caracteres_separadores(lineas[i][j]):  # Si el caracter en donde estamos no es ninguno de los caracteres que separa palabras o que no sirve a formar palabras entonces lo agregamos a la palabra
+                    palabra_vacia = False
                     palabra = algo1.concat(palabra, algo1.String(lineas[i][j]))
                 else:  # Sino insertamos la palabra que obtuvimos hasta este punto y resteamos la variable palabra
-                    ultimo_nodo_trie = trie.insert(estructura, palabra)  # El insert retornará el ultimo nodo correspondiente a la palabra en el Trie
-                    # TODO: aca incrementar el valor de esta palabra correspondiente al doc actual.
-                    ''' Pseudocodigo
-                    if ultimo_nodo_tire.docsWhereApears.head != documento:
-                        LinkedList.add(ultimo_nodo_tire.docsWhereApears.head, (documento,1)) #  Como tupla, o array
-                    else: ## Ya existe en el documento, solo incrementar
-                        old = ultimo_nodo_tire.docsWhereApears.head
-                        old = old+1
-                    '''
-                    palabra = algo1.String("")
+                    if not palabra_vacia: #este if sirve para que cuando haya 2 o más caracteres separadores o que ignoramos seguidos no inserta la palabra vacia como palabra en la estructura
+                        ultimo_nodo_trie = trie.insert(estructura, palabra)  # El insert retornará el ultimo nodo correspondiente a la palabra en el Trie
+                        # TODO: aca incrementar el valor de esta palabra correspondiente al doc actual.
+                        ''' Pseudocodigo
+                        if ultimo_nodo_tire.docsWhereApears.head != documento:
+                            LinkedList.add(ultimo_nodo_tire.docsWhereApears.head, (documento,1)) #  Como tupla, o array
+                        else: ## Ya existe en el documento, solo incrementar
+                            old = ultimo_nodo_tire.docsWhereApears.head
+                            old = old+1
+                        '''
+                        palabra = algo1.String("")
+                        palabra_vacia = True
 
 
 # Funcion que nos dice si un caracter pertenece al conjunto de caracteres que no nos interesan para formar palabras (como por ejemplo un espacio vacio)
