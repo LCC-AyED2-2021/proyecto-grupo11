@@ -4,7 +4,7 @@
 # de los documentos donde la palabra aparece, y cuantas veces aparece.
 ########
 
-from lib.latinHash import latinHash as LHash
+from lib.latinChar import latinChar as LChar
 import lib.algo1 as algo
 
 # Longitud del diccionario sqrt(61) (latin basico sin diferenciar mayúsculas de minúsculas)
@@ -48,7 +48,7 @@ def insert(trie, text):
 
     for i in range(0, len(text)):
         # Buscar el caracter en el nivel actual
-        caracter = LHash(text[i])
+        caracter = LChar(text[i])
         hashCaracter = h(caracter)
 
         # Buscar como si fuese una LList el caracter en las colisiones del diccionario.
@@ -91,7 +91,7 @@ def addTrieNode(dictionary, key):
         Crea un TrieNode y lo inserta en una LList de TrieNodes
     Params:
         dictionary: El pointer del primer TrieNode de la lista
-        key: El 
+        key: El key correspondiente al código del caracter a insertar.
     Return:
         El pointer del nodo creado.
     '''
@@ -127,7 +127,7 @@ def getWord(trie, text):
 
     for i in range(0, len(text)):
         # Buscar el caracter en el nivel actual
-        caracter = LHash(text[i])
+        caracter = LChar(text[i])
         hashCaracter = h(caracter)
 
         # Buscar como si fuese una LList el caracter en las colisiones del diccionario.
@@ -152,6 +152,7 @@ def getWord(trie, text):
     if nodoDelCaracter: # corresponde al ultimo caracter
         resultado = nodoDelCaracter.docsWhereApears
     return resultado
+
 
 def InsertionSort(Q):
     if Q==None:

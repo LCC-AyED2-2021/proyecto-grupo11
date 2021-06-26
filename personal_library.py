@@ -1,9 +1,12 @@
+## Importar módulos 
 import sys
 import os
 import pickle
 from lib import algo1
 from lib import trie
-# Definir funciones principales
+from lib import strcmpAlt as sc
+
+## Definir funciones principales
 
 def create(local_path):
     if os.path.exists(local_path):  # Nos fijamos si la path que nos pasó el usuario existe, si existe continuamos con el algoritmo
@@ -30,7 +33,7 @@ def search(palabra):
     return True
 
 
-# Definimos funciones auxiliares
+## Definimos funciones auxiliares
 #         ---Create---
 
 # Lee cada palabra del documento y la inserta en la estructura
@@ -101,13 +104,13 @@ def crear_estructura(local_path):
     return estructura
 
 
+### Código __main__ ###
 # Leer los argumentos pasados por consola, verificar y ejecutar funciones
-
 if len(sys.argv) == 3:
-    if sys.argv[1] == '-create':
+    if sc.strcmpAlt(algo1.String(sys.argv[1]), algo1.String('-create')):
         # Ejecutar '-create'
         create(sys.argv[2])
-    elif sys.argv[1] == '-search':
+    elif sc.strcmpAlt(algo1.String(sys.argv[1]), algo1.String('-search')):
         # Ejecutar '-search'
         search(sys.argv[2])
     else:
