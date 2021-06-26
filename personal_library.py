@@ -1,4 +1,6 @@
 ## Importar módulos 
+from lib import linkedlist
+from lib.linkedlist import LinkedList, add
 import sys
 import os
 import pickle
@@ -25,7 +27,7 @@ def search(palabra):
     with open("biblioteca.bin", "br") as leer_biblioteca:
         biblioteca=pickle.load(leer_biblioteca)
     lista=trie.getWord(biblioteca,palabra)
-    lista=trie.InsertionSort(lista)
+    lista=trie.InsertionSort(lista.head)
     while lista.nextNode!=None:
         print(lista.value,":", end="")
         print(lista.key, ",", end="")
@@ -59,6 +61,14 @@ def leer_palabras(documento, estructura):
                             old = ultimo_nodo_tire.docsWhereApears.head
                             old = old+1
                         '''
+                        if ultimo_nodo_trie.docsWhereApears != None:
+                            if ultimo_nodo_trie.docsWhereApears.head.value != documento:
+                                linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento, 1)
+                            else:
+                                ultimo_nodo_trie.docsWhereApears.head.key = ultimo_nodo_trie.docsWhereApears.head.key + 1
+                        else:
+                            ultimo_nodo_trie.docsWhereApears=linkedlist.LinkedList()
+                            linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento,1)   
                         palabra = algo1.String("")
                         palabra_vacia = True
 

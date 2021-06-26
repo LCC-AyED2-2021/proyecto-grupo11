@@ -6,28 +6,24 @@ class LinkedList:
 
 class Node:
     value = None
+    key = None
     nextNode = None
 
 # Define operations
 
-
-def add(linkedList, element):
-    """
-    Explanation: 
-        Add an element at the beginning of a LinkedList (sequence ADT).
-    Params:
-        linkedList: The list on which you want to add the element.
-        element: The element to add.
-    """
-    # Create the new node and store the element.
-    newNode = Node()
-    newNode.value = element
-
-    # Assign the head node to be the second node
-    newNode.nextNode = linkedList.head
-
-    # Assign the new node as the first node
-    linkedList.head = newNode
+def add(L,element,cont): 
+  NodeA=L.head #Definimos NodeA como LinkedList
+  if NodeA!=None: #Si este no es None:
+    NodeB=Node() #Se crea otro Node
+    NodeB.value=element #Le damos valor al NodeB
+    NodeB.key=cont
+    NodeB.nextNode=NodeA #Igualamos 
+    L.head=NodeB
+  else:           #Si la primer lista no es None:
+    NodeB=Node()  #Se crea otro Node
+    NodeB.value=element #Le damos valor al NodeB
+    NodeB.key=cont
+    L.head=NodeB
 
 
 def search(linkedList, element):

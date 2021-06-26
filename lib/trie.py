@@ -6,6 +6,7 @@
 
 from lib.latinChar import latinChar as LChar
 import lib.algo1 as algo
+import lib.linkedlist
 
 # Longitud del diccionario sqrt(61) (latin basico sin diferenciar mayúsculas de minúsculas)
 m = 8
@@ -164,9 +165,9 @@ def InsertionSort(Q):
             NodeB=Q
             #Bucle que se ejecutará hasta el current node
             while NodeB!=NodeA:
-                if NodeA.key<NodeB.key:
+                if NodeA.key>NodeB.key:
                 #Asignacion de valores si cumple la condicion
-                    NodeAux=Node()
+                    NodeAux=lib.linkedlist.Node()
                     NodeAux.value=NodeB.value
                     NodeAux.key=NodeB.key
                     NodeAux.nextNode=NodeB.nextNode
