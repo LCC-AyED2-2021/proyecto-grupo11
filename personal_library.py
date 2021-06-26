@@ -50,6 +50,27 @@ def leer_palabras(documento, estructura):
                 if not caracteres_separadores(lineas[i], j):  # Si el caracter en donde estamos no es ninguno de los caracteres que separa palabras o que no sirve a formar palabras entonces lo agregamos a la palabra
                     palabra_vacia = False
                     palabra = algo1.concat(palabra, algo1.String(lineas[i][j]))
+
+                    if j == len(lineas[i]) - 1: #si estamos en el ultimo caracter y este no es un caracter separador para evitar saltar la ultima palabra de un documento la insertamos en la estructura acá
+                        ultimo_nodo_trie = trie.insert(estructura, palabra)  # El insert retornará el ultimo nodo correspondiente a la palabra en el Trie
+                        # TODO: aca incrementar el valor de esta palabra correspondiente al doc actual.
+                        ''' Pseudocodigo
+                        if ultimo_nodo_tire.docsWhereApears.head != documento:
+                            LinkedList.add(ultimo_nodo_tire.docsWhereApears.head, (documento,1)) #  Como tupla, o array
+                        else: ## Ya existe en el documento, solo incrementar
+                            old = ultimo_nodo_tire.docsWhereApears.head
+                            old = old+1
+                        '''
+                        if ultimo_nodo_trie.docsWhereApears != None:
+                            if ultimo_nodo_trie.docsWhereApears.head.value != documento:
+                                linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento, 1)
+                            else:
+                                ultimo_nodo_trie.docsWhereApears.head.key = ultimo_nodo_trie.docsWhereApears.head.key + 1
+                        else:
+                            ultimo_nodo_trie.docsWhereApears=linkedlist.LinkedList()
+                            linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento,1)   
+                        palabra = algo1.String("")
+                        palabra_vacia = True
                 else:  # Sino insertamos la palabra que obtuvimos hasta este punto y resteamos la variable palabra
                     if not palabra_vacia: #este if sirve para que cuando haya 2 o más caracteres separadores o que ignoramos seguidos no inserta la palabra vacia como palabra en la estructura
                         ultimo_nodo_trie = trie.insert(estructura, palabra)  # El insert retornará el ultimo nodo correspondiente a la palabra en el Trie
@@ -99,12 +120,22 @@ def caracteres_separadores(linea, j):
         else:
             caracter_posterior_ooi = True
 
-        if algo1.strcmp(caracter, algo1.String("-")) or algo1.strcmp(caracter, algo1.String("−")): # - palabras inglesas con guion
+        if algo1.strcmp(caracter, algo1.String("-")) or algo1.strcmp(caracter, algo1.String("−")): # - palabras inglesas con guion y numeros negativos
             if not caracter_anterior_ooi and not caracter_posterior_ooi:
                 if ascii_mayuscula(caracter_anterior) >= 65 and ascii_mayuscula(caracter_anterior) <= 90 and ascii_mayuscula(caracter_posterior) >= 65 and ascii_mayuscula(caracter_posterior) <= 90:  # Si el caracter anterior y posterior son letras del alfabeto entonces decidimos que esta es una palabra especial en ingles compuesta por dos palabras y un guion en el medio (65 y 90 son los limites de las letras mayusculas en la tabla ascii, revisamos solo esas porque ascii_mayuscula transforma las minusculas en mayusculas)
                     return False
+                elif not caracter_posterior_ooi: #si tenemos un caracter posterior nos fijamos que no sea un numero negativo
+                    if ord(caracter_posterior) <= 57 and ord(caracter_posterior) >= 48: # Si el caracter posterior es un numero entonces decidimos que este es un numero negativo (48 y 57 son los limites de los numeros en la tabla ascii):
+                        return False
+                    else: # Si a la derecha no tiene numeros entonces podria ser un menos, entonces no nos sirve para formar palabras
+                        return True  
                 else: # Si a los costados no tiene letras entonces podria ser un menos, entonces no nos sirve para formar palabras
                     return True
+            elif not caracter_posterior_ooi: #si tenemos un caracter posterior nos fijamos que no sea un numero negativo
+                if ord(caracter_posterior) <= 57 and ord(caracter_posterior) >= 48: # Si el caracter posterior es un numero entonces decidimos que este es un numero negativo (48 y 57 son los limites de los numeros en la tabla ascii):
+                    return False
+                else: # Si a la derecha no tiene numeros entonces podria ser un menos, entonces no nos sirve para formar palabras
+                    return True  
             else: # si no tenemos los dos caracteres anterior y posterior en este caso podemos decir directamente que es un caracter que no nos sirve porque para ser el caso especial necesita los dos caracteres
                 return True
         elif algo1.strcmp(caracter, algo1.String(".")) or algo1.strcmp(caracter, algo1.String(",")): # . , numeros con coma
