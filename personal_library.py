@@ -37,7 +37,7 @@ def search(palabra):
         print(lista.key)
         return True
     else: #Si no existe la lista
-        print("La palabra que desea buscar no existe en los archivos") #Se le avisa al usuario de que no se encuentra la palabra en los documentos
+        print("no document found") #Se le avisa al usuario de que no se encuentra la palabra en los documentos
 
 
 ## Definimos funciones auxiliares
@@ -102,10 +102,10 @@ def leer_palabras(documento, estructura):
 # Funcion que nos dice si un caracter pertenece al conjunto de caracteres que no nos interesan para formar palabras (como por ejemplo un espacio vacio)
 def caracteres_separadores(linea, j):
     # caracteres que ignoramos siempre porque no nos sirven para formar palabras o otras cosas utiles 
-    #  + = () [] {} < > : ; ? ! / \ | " # & * • ‘ “ ” ´ © → @
+    #  + = () [] {} < > : ; ? ! / \ | " # & * • ‘ “ ” ´ © → @ ˆ ^ ` † … ∈ ~ ≥
 
     caracter = linea[j]
-    if algo1.strcmp(caracter, algo1.String(" ")) or algo1.strcmp(caracter, algo1.String("(")) or algo1.strcmp(caracter, algo1.String(")")) or algo1.strcmp(caracter, algo1.String("[")) or algo1.strcmp(caracter, algo1.String("]")) or algo1.strcmp(caracter, algo1.String("{")) or algo1.strcmp(caracter, algo1.String("}"))or algo1.strcmp(caracter, algo1.String("<")) or algo1.strcmp(caracter, algo1.String(">")) or algo1.strcmp(caracter, algo1.String("+")) or algo1.strcmp(caracter, algo1.String("=")) or algo1.strcmp(caracter, algo1.String("*")) or algo1.strcmp(caracter, algo1.String("/")) or algo1.strcmp(caracter, algo1.String("\\")) or algo1.strcmp(caracter, algo1.String("|")) or algo1.strcmp(caracter, algo1.String("©")) or algo1.strcmp(caracter, algo1.String("#")) or algo1.strcmp(caracter, algo1.String("@")) or algo1.strcmp(caracter, algo1.String("&")) or algo1.strcmp(caracter, algo1.String(";")) or algo1.strcmp(caracter, algo1.String(":")) or algo1.strcmp(caracter, algo1.String("?")) or algo1.strcmp(caracter, algo1.String("!")) or algo1.strcmp(caracter, algo1.String('"')) or algo1.strcmp(caracter, algo1.String('‘')) or algo1.strcmp(caracter, algo1.String('•')) or algo1.strcmp(caracter, algo1.String('“')) or algo1.strcmp(caracter, algo1.String('”')) or algo1.strcmp(caracter, algo1.String('´'))  or algo1.strcmp(caracter, algo1.String("→")) or caracter == "\n":
+    if algo1.strcmp(caracter, algo1.String(" ")) or algo1.strcmp(caracter, algo1.String("(")) or algo1.strcmp(caracter, algo1.String(")")) or algo1.strcmp(caracter, algo1.String("[")) or algo1.strcmp(caracter, algo1.String("]")) or algo1.strcmp(caracter, algo1.String("{")) or algo1.strcmp(caracter, algo1.String("}"))or algo1.strcmp(caracter, algo1.String("<")) or algo1.strcmp(caracter, algo1.String(">")) or algo1.strcmp(caracter, algo1.String("+")) or algo1.strcmp(caracter, algo1.String("=")) or algo1.strcmp(caracter, algo1.String("*")) or algo1.strcmp(caracter, algo1.String("/")) or algo1.strcmp(caracter, algo1.String("\\")) or algo1.strcmp(caracter, algo1.String("|")) or algo1.strcmp(caracter, algo1.String("©")) or algo1.strcmp(caracter, algo1.String("#")) or algo1.strcmp(caracter, algo1.String("@")) or algo1.strcmp(caracter, algo1.String("&")) or algo1.strcmp(caracter, algo1.String(";")) or algo1.strcmp(caracter, algo1.String(":")) or algo1.strcmp(caracter, algo1.String("?")) or algo1.strcmp(caracter, algo1.String("!")) or algo1.strcmp(caracter, algo1.String('"')) or algo1.strcmp(caracter, algo1.String('‘')) or algo1.strcmp(caracter, algo1.String('•')) or algo1.strcmp(caracter, algo1.String('“')) or algo1.strcmp(caracter, algo1.String('”')) or algo1.strcmp(caracter, algo1.String('´')) or algo1.strcmp(caracter, algo1.String("→")) or algo1.strcmp(caracter, algo1.String("ˆ")) or algo1.strcmp(caracter, algo1.String("^")) or algo1.strcmp(caracter, algo1.String("`")) or algo1.strcmp(caracter, algo1.String("†")) or algo1.strcmp(caracter, algo1.String("…")) or algo1.strcmp(caracter, algo1.String("∈")) or algo1.strcmp(caracter, algo1.String("~")) or algo1.strcmp(caracter, algo1.String("≥")) or caracter == "\n":
         return True
     else:
         # casos especiales que necesitan un poco más de procesamiento para decir si son saltables o no
@@ -122,7 +122,7 @@ def caracteres_separadores(linea, j):
         else:
             caracter_posterior_ooi = True
 
-        if algo1.strcmp(caracter, algo1.String("-")) or algo1.strcmp(caracter, algo1.String("−")): # - palabras inglesas con guion y numeros negativos
+        if algo1.strcmp(caracter, algo1.String("-")) or algo1.strcmp(caracter, algo1.String("−")) or algo1.strcmp(caracter, algo1.String("—")): # -−— palabras inglesas con guion y numeros negativos
             if not caracter_anterior_ooi and not caracter_posterior_ooi:
                 if ascii_mayuscula(caracter_anterior) >= 65 and ascii_mayuscula(caracter_anterior) <= 90 and ascii_mayuscula(caracter_posterior) >= 65 and ascii_mayuscula(caracter_posterior) <= 90:  # Si el caracter anterior y posterior son letras del alfabeto entonces decidimos que esta es una palabra especial en ingles compuesta por dos palabras y un guion en el medio (65 y 90 son los limites de las letras mayusculas en la tabla ascii, revisamos solo esas porque ascii_mayuscula transforma las minusculas en mayusculas)
                     return False
