@@ -1,12 +1,11 @@
 ## Importar módulos 
-from lib import linkedlist
-from lib.linkedlist import LinkedList, add
 import sys
 import os
 import pickle
 from lib import algo1
+from lib import linkedlist
+from lib.strcmpAlt import strcmpAlt
 from lib import trie
-from lib import strcmpAlt as sc
 
 ## Definir funciones principales
 
@@ -58,43 +57,13 @@ def leer_palabras(documento, estructura):
 
                     if j == len(lineas[i]) - 1: #si estamos en el ultimo caracter y este no es un caracter separador para evitar saltar la ultima palabra de un documento la insertamos en la estructura acá
                         ultimo_nodo_trie = trie.insert(estructura, palabra)  # El insert retornará el ultimo nodo correspondiente a la palabra en el Trie
-                        # TODO: aca incrementar el valor de esta palabra correspondiente al doc actual.
-                        ''' Pseudocodigo
-                        if ultimo_nodo_tire.docsWhereApears.head != documento:
-                            LinkedList.add(ultimo_nodo_tire.docsWhereApears.head, (documento,1)) #  Como tupla, o array
-                        else: ## Ya existe en el documento, solo incrementar
-                            old = ultimo_nodo_tire.docsWhereApears.head
-                            old = old+1
-                        '''
-                        if ultimo_nodo_trie.docsWhereApears != None: #Si la lista existe
-                            if ultimo_nodo_trie.docsWhereApears.head.value != documento: #Si estamos trabajando con un documento distinto
-                                linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento, 1) #Se agrega el documento a la lista
-                            else: #Si se trabaja con el mismo
-                                ultimo_nodo_trie.docsWhereApears.head.key = ultimo_nodo_trie.docsWhereApears.head.key + 1 #Se aumenta una aparicion de la palabra en el documento
-                        else: #Si la lista no existe
-                            ultimo_nodo_trie.docsWhereApears=linkedlist.LinkedList() #Se define
-                            linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento,1)   #Y se agrega el documento, al inicio de la lista
+                        actualizar_docsWhereApears(ultimo_nodo_trie, documento)
                         palabra = algo1.String("")
                         palabra_vacia = True
                 else:  # Sino insertamos la palabra que obtuvimos hasta este punto y resteamos la variable palabra
                     if not palabra_vacia: #este if sirve para que cuando haya 2 o más caracteres separadores o que ignoramos seguidos no inserta la palabra vacia como palabra en la estructura
                         ultimo_nodo_trie = trie.insert(estructura, palabra)  # El insert retornará el ultimo nodo correspondiente a la palabra en el Trie
-                        # TODO: aca incrementar el valor de esta palabra correspondiente al doc actual.
-                        ''' Pseudocodigo
-                        if ultimo_nodo_tire.docsWhereApears.head != documento:
-                            LinkedList.add(ultimo_nodo_tire.docsWhereApears.head, (documento,1)) #  Como tupla, o array
-                        else: ## Ya existe en el documento, solo incrementar
-                            old = ultimo_nodo_tire.docsWhereApears.head
-                            old = old+1
-                        '''
-                        if ultimo_nodo_trie.docsWhereApears != None: #Si la lista existe
-                            if ultimo_nodo_trie.docsWhereApears.head.value != documento: #Si estamos trabajando con un documento distinto
-                                linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento, 1)  #Se agrega el documento a la lista
-                            else: #Si se trabaja con el mismo
-                                ultimo_nodo_trie.docsWhereApears.head.key = ultimo_nodo_trie.docsWhereApears.head.key + 1 #Se aumenta una aparicion de la palabra en el documento
-                        else: #Si la lista no existe
-                            ultimo_nodo_trie.docsWhereApears=linkedlist.LinkedList() #Se define
-                            linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento,1)   #Y se agrega el documento, al inicio de la lista
+                        actualizar_docsWhereApears(ultimo_nodo_trie, documento)
                         palabra = algo1.String("")
                         palabra_vacia = True
 
@@ -225,14 +194,24 @@ def crear_estructura(local_path):
     # Retornar la estructura creada
     return estructura
 
+# Este función es llamada despues de insertar una palabra a la estructura. Actualizará el campo docsWhereApears de la palabra insertada. Recibe por parametro el ultimo nodo de la palabra dentro de la estructura
+def actualizar_docsWhereApears(nodo, documento):
+    if nodo.docsWhereApears != None: #Si la lista existe
+        if nodo.docsWhereApears.head.value != documento: #Si estamos trabajando con un documento distinto
+            linkedlist.add(nodo.docsWhereApears, documento, 1)  #Se agrega el documento a la lista
+        else: #Si se trabaja con el mismo
+            nodo.docsWhereApears.head.key = nodo.docsWhereApears.head.key + 1 #Se aumenta una aparicion de la palabra en el documento
+    else: #Si la lista no existe
+        nodo.docsWhereApears=linkedlist.LinkedList() #Se define
+        linkedlist.add(nodo.docsWhereApears, documento,1)   #Y se agrega el documento, al inicio de la lista
 
 ### Código __main__ ###
 # Leer los argumentos pasados por consola, verificar y ejecutar funciones
 if len(sys.argv) == 3:
-    if sc.strcmpAlt(algo1.String(sys.argv[1]), algo1.String('-create')):
+    if strcmpAlt(algo1.String(sys.argv[1]), algo1.String('-create')):
         # Ejecutar '-create'
         create(sys.argv[2])
-    elif sc.strcmpAlt(algo1.String(sys.argv[1]), algo1.String('-search')):
+    elif strcmpAlt(algo1.String(sys.argv[1]), algo1.String('-search')):
         # Ejecutar '-search'
         search(sys.argv[2])
     else:
