@@ -27,12 +27,17 @@ def search(palabra):
     with open("biblioteca.bin", "br") as leer_biblioteca:
         biblioteca=pickle.load(leer_biblioteca)
     lista=trie.getWord(biblioteca,palabra)
-    lista=trie.InsertionSort(lista.head)
-    while lista.nextNode!=None:
-        print(lista.value,":", end="")
-        print(lista.key, ",", end="")
-        lista=lista.nextNode
-    return True
+    if lista!=None: #Si la lista existe
+        lista=trie.InsertionSort(lista.head) #Se llama a InsertionSort para ordenarla de mayor a menor
+        while lista.nextNode!=None: #Se recorre la lista y se imprime
+            print(lista.value,":", end="")
+            print(lista.key)
+            lista=lista.nextNode
+        print(lista.value, ":", end="")
+        print(lista.key)
+        return True
+    else: #Si no existe la lista
+        print("La palabra que desea buscar no existe en los archivos") #Se le avisa al usuario de que no se encuentra la palabra en los documentos
 
 
 ## Definimos funciones auxiliares
@@ -61,14 +66,14 @@ def leer_palabras(documento, estructura):
                             old = ultimo_nodo_tire.docsWhereApears.head
                             old = old+1
                         '''
-                        if ultimo_nodo_trie.docsWhereApears != None:
-                            if ultimo_nodo_trie.docsWhereApears.head.value != documento:
-                                linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento, 1)
-                            else:
-                                ultimo_nodo_trie.docsWhereApears.head.key = ultimo_nodo_trie.docsWhereApears.head.key + 1
-                        else:
-                            ultimo_nodo_trie.docsWhereApears=linkedlist.LinkedList()
-                            linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento,1)   
+                        if ultimo_nodo_trie.docsWhereApears != None: #Si la lista existe
+                            if ultimo_nodo_trie.docsWhereApears.head.value != documento: #Si estamos trabajando con un documento distinto
+                                linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento, 1) #Se agrega el documento a la lista
+                            else: #Si se trabaja con el mismo
+                                ultimo_nodo_trie.docsWhereApears.head.key = ultimo_nodo_trie.docsWhereApears.head.key + 1 #Se aumenta una aparicion de la palabra en el documento
+                        else: #Si la lista no existe
+                            ultimo_nodo_trie.docsWhereApears=linkedlist.LinkedList() #Se define
+                            linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento,1)   #Y se agrega el documento, al inicio de la lista
                         palabra = algo1.String("")
                         palabra_vacia = True
                 else:  # Sino insertamos la palabra que obtuvimos hasta este punto y resteamos la variable palabra
@@ -82,14 +87,14 @@ def leer_palabras(documento, estructura):
                             old = ultimo_nodo_tire.docsWhereApears.head
                             old = old+1
                         '''
-                        if ultimo_nodo_trie.docsWhereApears != None:
-                            if ultimo_nodo_trie.docsWhereApears.head.value != documento:
-                                linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento, 1)
-                            else:
-                                ultimo_nodo_trie.docsWhereApears.head.key = ultimo_nodo_trie.docsWhereApears.head.key + 1
-                        else:
-                            ultimo_nodo_trie.docsWhereApears=linkedlist.LinkedList()
-                            linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento,1)   
+                        if ultimo_nodo_trie.docsWhereApears != None: #Si la lista existe
+                            if ultimo_nodo_trie.docsWhereApears.head.value != documento: #Si estamos trabajando con un documento distinto
+                                linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento, 1)  #Se agrega el documento a la lista
+                            else: #Si se trabaja con el mismo
+                                ultimo_nodo_trie.docsWhereApears.head.key = ultimo_nodo_trie.docsWhereApears.head.key + 1 #Se aumenta una aparicion de la palabra en el documento
+                        else: #Si la lista no existe
+                            ultimo_nodo_trie.docsWhereApears=linkedlist.LinkedList() #Se define
+                            linkedlist.add(ultimo_nodo_trie.docsWhereApears, documento,1)   #Y se agrega el documento, al inicio de la lista
                         palabra = algo1.String("")
                         palabra_vacia = True
 
