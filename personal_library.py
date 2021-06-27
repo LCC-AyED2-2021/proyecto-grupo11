@@ -97,16 +97,13 @@ def leer_palabras(documento, estructura):
 # Funcion que nos dice si un caracter pertenece al conjunto de caracteres que no nos interesan para formar palabras (como por ejemplo un espacio vacio)
 def caracteres_separadores(linea, j):
     # caracteres que ignoramos siempre porque no nos sirven para formar palabras o otras cosas utiles 
-    #  + = () [] {} < > : ; ? ! / \ | " # & * • ‘ “ ” ´
+    #  + = () [] {} < > : ; ? ! / \ | " # & * • ‘ “ ” ´ © → @
 
     caracter = linea[j]
-    if algo1.strcmp(caracter, algo1.String(" ")) or algo1.strcmp(caracter, algo1.String("(")) or algo1.strcmp(caracter, algo1.String(")")) or algo1.strcmp(caracter, algo1.String("[")) or algo1.strcmp(caracter, algo1.String("]")) or algo1.strcmp(caracter, algo1.String("{")) or algo1.strcmp(caracter, algo1.String("}"))or algo1.strcmp(caracter, algo1.String("<")) or algo1.strcmp(caracter, algo1.String(">")) or algo1.strcmp(caracter, algo1.String("+")) or algo1.strcmp(caracter, algo1.String("=")) or algo1.strcmp(caracter, algo1.String("*")) or algo1.strcmp(caracter, algo1.String("/")) or algo1.strcmp(caracter, algo1.String("\\")) or algo1.strcmp(caracter, algo1.String("|")) or algo1.strcmp(caracter, algo1.String("@")) or algo1.strcmp(caracter, algo1.String("#")) or algo1.strcmp(caracter, algo1.String("&")) or algo1.strcmp(caracter, algo1.String(";")) or algo1.strcmp(caracter, algo1.String(":")) or algo1.strcmp(caracter, algo1.String("?")) or algo1.strcmp(caracter, algo1.String("!")) or algo1.strcmp(caracter, algo1.String('"')) or algo1.strcmp(caracter, algo1.String('‘')) or algo1.strcmp(caracter, algo1.String('•')) or algo1.strcmp(caracter, algo1.String('“')) or algo1.strcmp(caracter, algo1.String('”')) or algo1.strcmp(caracter, algo1.String('´')) or caracter == "\n":
+    if algo1.strcmp(caracter, algo1.String(" ")) or algo1.strcmp(caracter, algo1.String("(")) or algo1.strcmp(caracter, algo1.String(")")) or algo1.strcmp(caracter, algo1.String("[")) or algo1.strcmp(caracter, algo1.String("]")) or algo1.strcmp(caracter, algo1.String("{")) or algo1.strcmp(caracter, algo1.String("}"))or algo1.strcmp(caracter, algo1.String("<")) or algo1.strcmp(caracter, algo1.String(">")) or algo1.strcmp(caracter, algo1.String("+")) or algo1.strcmp(caracter, algo1.String("=")) or algo1.strcmp(caracter, algo1.String("*")) or algo1.strcmp(caracter, algo1.String("/")) or algo1.strcmp(caracter, algo1.String("\\")) or algo1.strcmp(caracter, algo1.String("|")) or algo1.strcmp(caracter, algo1.String("©")) or algo1.strcmp(caracter, algo1.String("#")) or algo1.strcmp(caracter, algo1.String("@")) or algo1.strcmp(caracter, algo1.String("&")) or algo1.strcmp(caracter, algo1.String(";")) or algo1.strcmp(caracter, algo1.String(":")) or algo1.strcmp(caracter, algo1.String("?")) or algo1.strcmp(caracter, algo1.String("!")) or algo1.strcmp(caracter, algo1.String('"')) or algo1.strcmp(caracter, algo1.String('‘')) or algo1.strcmp(caracter, algo1.String('•')) or algo1.strcmp(caracter, algo1.String('“')) or algo1.strcmp(caracter, algo1.String('”')) or algo1.strcmp(caracter, algo1.String('´'))  or algo1.strcmp(caracter, algo1.String("→")) or caracter == "\n":
         return True
     else:
-        # casos especiales que necesitan un poco más de procesamiento para decir si son saltables o no (faltan todavia los emails y posiblemente otros casos que todavia no veo)
-        # emails
-        # urls ?
-
+        # casos especiales que necesitan un poco más de procesamiento para decir si son saltables o no
 
         caracter_anterior_ooi = False
         caracter_posterior_ooi = False
@@ -146,8 +143,7 @@ def caracteres_separadores(linea, j):
                     return True
             else: # si no tenemos los dos caracteres anterior y posterior en este caso podemos decir directamente que es un caracter que no nos sirve porque para ser el caso especial necesita los dos caracteres
                 return True 
-
-        if algo1.strcmp(caracter, algo1.String("'")) or algo1.strcmp(caracter, algo1.String("’")): # ' ’ palabras inglesas con apostrofe
+        elif algo1.strcmp(caracter, algo1.String("'")) or algo1.strcmp(caracter, algo1.String("’")): # ' ’ palabras inglesas con apostrofe
             if not caracter_anterior_ooi:
                 if buscar_caracter_en_palabra(algo1.String("'"),linea, j) or buscar_caracter_en_palabra(algo1.String("‘"),linea, j): #si existe otro apostrofe que lo cierra entonces lo estamos usando como comillas, las que no nos sirven para crear palabras
                     return True
