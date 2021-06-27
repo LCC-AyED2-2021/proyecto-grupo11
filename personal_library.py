@@ -29,11 +29,11 @@ def search(palabra):
     if lista!=None: #Si la lista existe
         lista=trie.InsertionSort(lista.head) #Se llama a InsertionSort para ordenarla de mayor a menor
         while lista.nextNode!=None: #Se recorre la lista y se imprime
-            print(lista.value,":", end="")
-            print(lista.key)
+            print(lista.value,": ", end="")
+            print(lista.key, " ocurrencias")
             lista=lista.nextNode
-        print(lista.value, ":", end="")
-        print(lista.key)
+        print(lista.value, ": ", end="")
+        print(lista.key, " ocurrencias")
         return True
     else: #Si no existe la lista
         print("no document found") #Se le avisa al usuario de que no se encuentra la palabra en los documentos
@@ -42,10 +42,34 @@ def search(palabra):
 ## Definimos funciones auxiliares
 #         ---Create---
 
-# Lee cada palabra del documento y la inserta en la estructura
-def leer_palabras(documento, estructura):
+# Esto copia los títulos de los textos que están en la carpeta que tiene el local_path, despues abre cada documento, los lee y inserta cada palabra en nuestra estructura que pensamos
+def crear_estructura(local_path):
 
-    with open(documento, encoding="utf8") as documento_a_leer:  # Abre el documento y lee linea por linea (se usa la opción UTF-8 para no tener problemas con cierto caracteres)
+    # voy a trabajar con string de python cuando uso funciones de os porque estas no me deja trabajar con String()
+
+    estructura = trie.Trie()
+
+    print("Lista de documentos en este path:")
+    lista_documentos = os.listdir(local_path)
+
+    print(lista_documentos)
+    # Nota: se usa una lista de python porque es lo que devuelve listdir, esta puede ser usada similar a un array en donde
+    # tenemos subindices, en este caso en particular cada subindice va a tener un titulo de un documento
+
+    # Acá abrimos los documentos
+    for documentos in range(0, len(lista_documentos)):
+        print("Procesando texto ", documentos, " ...")
+        path_documento_a_leer = local_path + "/" + lista_documentos[documentos]
+
+        leer_palabras(lista_documentos[documentos], path_documento_a_leer, estructura)
+
+    # Retornar la estructura creada
+    return estructura
+
+# Lee cada palabra del documento y la inserta en la estructura
+def leer_palabras(documento, path_documento, estructura):
+
+    with open(path_documento, encoding="utf8") as documento_a_leer:  # Abre el documento y lee linea por linea (se usa la opción UTF-8 para no tener problemas con cierto caracteres)
         lineas = documento_a_leer.readlines()  # Nota: lineas tiene dos parametros porque el primero es la linea en donde estamos del documento y el segundo es la letra en donde estamos de la linea
         palabra = String("")  # Empezamos la variable palabra con una string vacía
         palabra_vacia = True
@@ -131,24 +155,7 @@ def caracteres_separadores(linea, j):
 
         return False #si el caracter no corresponde a ninguno de estos casos especiales devolvemos False
 
-
-# Funcion que si recibe una letra minuscula la transforma en ascii de letra mayuscula, sino convierte simplemente en ascii
-def ascii_mayuscula(caracter):
-
-    codigo_original = ord(caracter)
-    corrector = 0
-
-    if codigo_original >= 97 and codigo_original <= 122:
-        corrector = 32
-
-    # Calcular el codigo final
-    codigoFinal = codigo_original - corrector
-
-    # Retornar el codigo final
-    return codigoFinal
-
 # Este algoritmo nos dice si existe un caracter en la palabra en la que estamos analizando usando tambien el codigo de caracteres separadores para saber donde empieza y termina (ademas revisa tambien la parte que todavia no analizamos)
-
 def buscar_caracter_en_palabra(caracter_a_buscar, linea, j): 
 
     i = j - 1
@@ -171,28 +178,20 @@ def buscar_caracter_en_palabra(caracter_a_buscar, linea, j):
 
     return False #si despues de haber revisado la izquierda y la derecha de la palabra no encontramos nada entonces devolvemos False
 
-def crear_estructura(local_path):
-    # Esto copia los títulos de los textos que están en la carpeta que tiene el local_path, despues abre cada documento, los lee y inserta cada palabra en nuestra estructura que pensamos
-    # voy a trabajar con string de python cuando uso funciones de os porque estas no me deja trabajar con String()
+# Funcion que si recibe una letra minuscula la transforma en ascii de letra mayuscula, sino convierte simplemente en ascii
+def ascii_mayuscula(caracter):
 
-    estructura = trie.Trie()
+    codigo_original = ord(caracter)
+    corrector = 0
 
-    print("Lista de documentos en este path:")
-    lista_documentos = os.listdir(local_path)
+    if codigo_original >= 97 and codigo_original <= 122:
+        corrector = 32
 
-    print(lista_documentos)
-    # Nota: se usa una lista de python porque es lo que devuelve listdir, esta puede ser usada similar a un array en donde
-    # tenemos subindices, en este caso en particular cada subindice va a tener un titulo de un documento
+    # Calcular el codigo final
+    codigoFinal = codigo_original - corrector
 
-    # Acá abrimos los documentos
-    for documentos in range(0, len(lista_documentos)):
-        print("Procesando texto ", documentos, " ...")
-        documento_a_leer = local_path + "/" + lista_documentos[documentos]
-
-        leer_palabras(documento_a_leer, estructura)
-
-    # Retornar la estructura creada
-    return estructura
+    # Retornar el codigo final
+    return codigoFinal
 
 # Este función es llamada despues de insertar una palabra a la estructura. Actualizará el campo docsWhereApears de la palabra insertada. Recibe por parametro el ultimo nodo de la palabra dentro de la estructura
 def actualizar_docsWhereApears(nodo, documento):
