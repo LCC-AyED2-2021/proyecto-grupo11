@@ -2,7 +2,7 @@
 import sys
 import os
 import pickle
-from lib import algo1
+from lib.algo1 import *
 from lib import linkedlist
 from lib.strcmpAlt import strcmpAlt
 from lib import trie
@@ -47,24 +47,24 @@ def leer_palabras(documento, estructura):
 
     with open(documento, encoding="utf8") as documento_a_leer:  # Abre el documento y lee linea por linea (se usa la opción UTF-8 para no tener problemas con cierto caracteres)
         lineas = documento_a_leer.readlines()  # Nota: lineas tiene dos parametros porque el primero es la linea en donde estamos del documento y el segundo es la letra en donde estamos de la linea
-        palabra = algo1.String("")  # Empezamos la variable palabra con una string vacía
+        palabra = String("")  # Empezamos la variable palabra con una string vacía
         palabra_vacia = True
         for i in range(0, len(lineas)):  # Recorremos todas las lineas del documento
             for j in range(0, len(lineas[i])):  # Recorremos todos los caracteres de la linea
                 if not caracteres_separadores(lineas[i], j):  # Si el caracter en donde estamos no es ninguno de los caracteres que separa palabras o que no sirve a formar palabras entonces lo agregamos a la palabra
                     palabra_vacia = False
-                    palabra = algo1.concat(palabra, algo1.String(lineas[i][j]))
+                    palabra = concat(palabra, String(lineas[i][j]))
 
                     if j == len(lineas[i]) - 1: #si estamos en el ultimo caracter y este no es un caracter separador para evitar saltar la ultima palabra de un documento la insertamos en la estructura acá
                         ultimo_nodo_trie = trie.insert(estructura, palabra)  # El insert retornará el ultimo nodo correspondiente a la palabra en el Trie
                         actualizar_docsWhereApears(ultimo_nodo_trie, documento)
-                        palabra = algo1.String("")
+                        palabra = String("")
                         palabra_vacia = True
                 else:  # Sino insertamos la palabra que obtuvimos hasta este punto y resteamos la variable palabra
                     if not palabra_vacia: #este if sirve para que cuando haya 2 o más caracteres separadores o que ignoramos seguidos no inserta la palabra vacia como palabra en la estructura
                         ultimo_nodo_trie = trie.insert(estructura, palabra)  # El insert retornará el ultimo nodo correspondiente a la palabra en el Trie
                         actualizar_docsWhereApears(ultimo_nodo_trie, documento)
-                        palabra = algo1.String("")
+                        palabra = String("")
                         palabra_vacia = True
 
 
@@ -74,7 +74,7 @@ def caracteres_separadores(linea, j):
     #  + = () [] {} < > : ; ? ! / \ | " # & * • ‘ “ ” ´ © → @ ˆ ^ ` † … ∈ ~ ≥
 
     caracter = linea[j]
-    if algo1.strcmp(caracter, algo1.String(" ")) or algo1.strcmp(caracter, algo1.String("(")) or algo1.strcmp(caracter, algo1.String(")")) or algo1.strcmp(caracter, algo1.String("[")) or algo1.strcmp(caracter, algo1.String("]")) or algo1.strcmp(caracter, algo1.String("{")) or algo1.strcmp(caracter, algo1.String("}"))or algo1.strcmp(caracter, algo1.String("<")) or algo1.strcmp(caracter, algo1.String(">")) or algo1.strcmp(caracter, algo1.String("+")) or algo1.strcmp(caracter, algo1.String("=")) or algo1.strcmp(caracter, algo1.String("*")) or algo1.strcmp(caracter, algo1.String("/")) or algo1.strcmp(caracter, algo1.String("\\")) or algo1.strcmp(caracter, algo1.String("|")) or algo1.strcmp(caracter, algo1.String("©")) or algo1.strcmp(caracter, algo1.String("#")) or algo1.strcmp(caracter, algo1.String("@")) or algo1.strcmp(caracter, algo1.String("&")) or algo1.strcmp(caracter, algo1.String(";")) or algo1.strcmp(caracter, algo1.String(":")) or algo1.strcmp(caracter, algo1.String("?")) or algo1.strcmp(caracter, algo1.String("!")) or algo1.strcmp(caracter, algo1.String('"')) or algo1.strcmp(caracter, algo1.String('‘')) or algo1.strcmp(caracter, algo1.String('•')) or algo1.strcmp(caracter, algo1.String('“')) or algo1.strcmp(caracter, algo1.String('”')) or algo1.strcmp(caracter, algo1.String('´')) or algo1.strcmp(caracter, algo1.String("→")) or algo1.strcmp(caracter, algo1.String("ˆ")) or algo1.strcmp(caracter, algo1.String("^")) or algo1.strcmp(caracter, algo1.String("`")) or algo1.strcmp(caracter, algo1.String("†")) or algo1.strcmp(caracter, algo1.String("…")) or algo1.strcmp(caracter, algo1.String("∈")) or algo1.strcmp(caracter, algo1.String("~")) or algo1.strcmp(caracter, algo1.String("≥")) or caracter == "\n":
+    if strcmp(caracter, String(" ")) or strcmp(caracter, String("(")) or strcmp(caracter, String(")")) or strcmp(caracter, String("[")) or strcmp(caracter, String("]")) or strcmp(caracter, String("{")) or strcmp(caracter, String("}"))or strcmp(caracter, String("<")) or strcmp(caracter, String(">")) or strcmp(caracter, String("+")) or strcmp(caracter, String("=")) or strcmp(caracter, String("*")) or strcmp(caracter, String("/")) or strcmp(caracter, String("\\")) or strcmp(caracter, String("|")) or strcmp(caracter, String("©")) or strcmp(caracter, String("#")) or strcmp(caracter, String("@")) or strcmp(caracter, String("&")) or strcmp(caracter, String(";")) or strcmp(caracter, String(":")) or strcmp(caracter, String("?")) or strcmp(caracter, String("!")) or strcmp(caracter, String('"')) or strcmp(caracter, String('‘')) or strcmp(caracter, String('•')) or strcmp(caracter, String('“')) or strcmp(caracter, String('”')) or strcmp(caracter, String('´')) or strcmp(caracter, String("→")) or strcmp(caracter, String("ˆ")) or strcmp(caracter, String("^")) or strcmp(caracter, String("`")) or strcmp(caracter, String("†")) or strcmp(caracter, String("…")) or strcmp(caracter, String("∈")) or strcmp(caracter, String("~")) or strcmp(caracter, String("≥")) or caracter == "\n":
         return True
     else:
         # casos especiales que necesitan un poco más de procesamiento para decir si son saltables o no
@@ -91,7 +91,7 @@ def caracteres_separadores(linea, j):
         else:
             caracter_posterior_ooi = True
 
-        if algo1.strcmp(caracter, algo1.String("-")) or algo1.strcmp(caracter, algo1.String("−")) or algo1.strcmp(caracter, algo1.String("—")): # -−— palabras inglesas con guion y numeros negativos
+        if strcmp(caracter, String("-")) or strcmp(caracter, String("−")) or strcmp(caracter, String("—")): # -−— palabras inglesas con guion y numeros negativos
             if not caracter_anterior_ooi and not caracter_posterior_ooi:
                 if ascii_mayuscula(caracter_anterior) >= 65 and ascii_mayuscula(caracter_anterior) <= 90 and ascii_mayuscula(caracter_posterior) >= 65 and ascii_mayuscula(caracter_posterior) <= 90:  # Si el caracter anterior y posterior son letras del alfabeto entonces decidimos que esta es una palabra especial en ingles compuesta por dos palabras y un guion en el medio (65 y 90 son los limites de las letras mayusculas en la tabla ascii, revisamos solo esas porque ascii_mayuscula transforma las minusculas en mayusculas)
                     return False
@@ -109,7 +109,7 @@ def caracteres_separadores(linea, j):
                     return True  
             else: # si no tenemos los dos caracteres anterior y posterior en este caso podemos decir directamente que es un caracter que no nos sirve porque para ser el caso especial necesita los dos caracteres
                 return True
-        elif algo1.strcmp(caracter, algo1.String(".")) or algo1.strcmp(caracter, algo1.String(",")): # . , numeros con coma
+        elif strcmp(caracter, String(".")) or strcmp(caracter, String(",")): # . , numeros con coma
             if not caracter_anterior_ooi and not caracter_posterior_ooi:
                 if ord(caracter_anterior) <= 57 and ord(caracter_anterior) >= 48 and ord(caracter_posterior) <= 57 and ord(caracter_posterior) >= 48: # Si el caracter anterior y posterior son numeros entonces decidimos que este es un numero con coma (48 y 57 son los limites de los numeros en la tabla ascii)
                     return False
@@ -117,9 +117,9 @@ def caracteres_separadores(linea, j):
                     return True
             else: # si no tenemos los dos caracteres anterior y posterior en este caso podemos decir directamente que es un caracter que no nos sirve porque para ser el caso especial necesita los dos caracteres
                 return True 
-        elif algo1.strcmp(caracter, algo1.String("'")) or algo1.strcmp(caracter, algo1.String("’")): # ' ’ palabras inglesas con apostrofe
+        elif strcmp(caracter, String("'")) or strcmp(caracter, String("’")): # ' ’ palabras inglesas con apostrofe
             if not caracter_anterior_ooi:
-                if buscar_caracter_en_palabra(algo1.String("'"),linea, j) or buscar_caracter_en_palabra(algo1.String("‘"),linea, j): #si existe otro apostrofe que lo cierra entonces lo estamos usando como comillas, las que no nos sirven para crear palabras
+                if buscar_caracter_en_palabra(String("'"),linea, j) or buscar_caracter_en_palabra(String("‘"),linea, j): #si existe otro apostrofe que lo cierra entonces lo estamos usando como comillas, las que no nos sirven para crear palabras
                     return True
                 elif ascii_mayuscula(caracter_anterior) >= 65 and ascii_mayuscula(caracter_anterior) <= 90: #si ademas de no tener otro apostrofe en la palabra como minimo tenemos una letra a la izquierda entonces la podemos considerar como util para formar una palabra en ingles (cosas como can't y el genitivo sajón)
                     return False
@@ -153,7 +153,7 @@ def buscar_caracter_en_palabra(caracter_a_buscar, linea, j):
 
     i = j - 1
     while i > 0: #revisamos la izquierda hasta llegar al limite de la linea o hasta llegar a un caracter separador (break más abajo)
-        if algo1.strcmp(linea[i], caracter_a_buscar): #si encontramos el caracter que buscabamos entonces devolvemos true
+        if strcmp(linea[i], caracter_a_buscar): #si encontramos el caracter que buscabamos entonces devolvemos true
             return True
 
         if caracteres_separadores(linea, i): #esto se revisa despues porque si lo hacemos antes podria suceder un bucle infinito
@@ -162,7 +162,7 @@ def buscar_caracter_en_palabra(caracter_a_buscar, linea, j):
 
     i = j + 1
     while i < len(linea): #revisamos la derecha hasta llegar al limite de la linea o hasta llegar a un caracter separador (break más abajo)
-        if algo1.strcmp(linea[i], caracter_a_buscar): #si encontramos el caracter que buscabamos entonces devolvemos true
+        if strcmp(linea[i], caracter_a_buscar): #si encontramos el caracter que buscabamos entonces devolvemos true
             return True
 
         if caracteres_separadores(linea, i): #esto se revisa despues porque si lo hacemos antes podria suceder un bucle infinito
@@ -208,10 +208,10 @@ def actualizar_docsWhereApears(nodo, documento):
 ### Código __main__ ###
 # Leer los argumentos pasados por consola, verificar y ejecutar funciones
 if len(sys.argv) == 3:
-    if strcmpAlt(algo1.String(sys.argv[1]), algo1.String('-create')):
+    if strcmpAlt(String(sys.argv[1]), String('-create')):
         # Ejecutar '-create'
         create(sys.argv[2])
-    elif strcmpAlt(algo1.String(sys.argv[1]), algo1.String('-search')):
+    elif strcmpAlt(String(sys.argv[1]), String('-search')):
         # Ejecutar '-search'
         search(sys.argv[2])
     else:
