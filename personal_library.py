@@ -7,6 +7,9 @@ from lib import linkedlist
 from lib.strcmpAlt import strcmpAlt
 from lib import trie
 
+## Switch debug log
+logging = False
+
 ## Definir funciones principales
 
 def create(local_path):
@@ -28,13 +31,10 @@ def search(palabra):
     lista=trie.getWord(biblioteca,palabra)
     if lista!=None: #Si la lista existe
         lista=trie.InsertionSort(lista.head) #Se llama a InsertionSort para ordenarla de mayor a menor
-        while lista.nextNode!=None: #Se recorre la lista y se imprime
+        while lista != None: #Se recorre la lista y se imprime
             print(lista.value,": ", end="")
-            print(lista.key, " ocurrencias")
+            print(lista.key, " ocurrencias.")
             lista=lista.nextNode
-        print(lista.value, ": ", end="")
-        print(lista.key, " ocurrencias")
-        return True
     else: #Si no existe la lista
         print("no document found") #Se le avisa al usuario de que no se encuentra la palabra en los documentos
 
@@ -49,16 +49,18 @@ def crear_estructura(local_path):
 
     estructura = trie.Trie()
 
-    print("Lista de documentos en este path:")
     lista_documentos = os.listdir(local_path)
+    if logging:
+        print("Lista de documentos en este path:")
+        for i in range(len(lista_documentos)):
+            print(lista_documentos[i])
 
-    print(lista_documentos)
     # Nota: se usa una lista de python porque es lo que devuelve listdir, esta puede ser usada similar a un array en donde
     # tenemos subindices, en este caso en particular cada subindice va a tener un titulo de un documento
 
     # Acá abrimos los documentos
     for documentos in range(0, len(lista_documentos)):
-        print("Procesando texto ", documentos, " ...")
+        if logging: print("Procesando texto ", documentos, " ...")
         path_documento_a_leer = local_path + "/" + lista_documentos[documentos]
 
         leer_palabras(lista_documentos[documentos], path_documento_a_leer, estructura)
@@ -202,7 +204,7 @@ def actualizar_docsWhereApears(nodo, documento):
             nodo.docsWhereApears.head.key = nodo.docsWhereApears.head.key + 1 #Se aumenta una aparicion de la palabra en el documento
     else: #Si la lista no existe
         nodo.docsWhereApears=linkedlist.LinkedList() #Se define
-        linkedlist.add(nodo.docsWhereApears, documento,1)   #Y se agrega el documento, al inicio de la lista
+        linkedlist.add(nodo.docsWhereApears, documento, 1)   #Y se agrega el documento, al inicio de la lista
 
 ### Código __main__ ###
 # Leer los argumentos pasados por consola, verificar y ejecutar funciones
