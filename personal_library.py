@@ -100,7 +100,7 @@ def caracteres_separadores(linea, j):
     #  + = () [] {} < > : ; ? ! / \ | " # & * • ‘ “ ” ´ © → @ ˆ ^ ` † … ∈ ~ ≥
 
     caracter = linea[j]
-    if strcmp(caracter, String(" ")) or strcmp(caracter, String("(")) or strcmp(caracter, String(")")) or strcmp(caracter, String("[")) or strcmp(caracter, String("]")) or strcmp(caracter, String("{")) or strcmp(caracter, String("}"))or strcmp(caracter, String("<")) or strcmp(caracter, String(">")) or strcmp(caracter, String("+")) or strcmp(caracter, String("=")) or strcmp(caracter, String("*")) or strcmp(caracter, String("/")) or strcmp(caracter, String("\\")) or strcmp(caracter, String("|")) or strcmp(caracter, String("©")) or strcmp(caracter, String("#")) or strcmp(caracter, String("@")) or strcmp(caracter, String("&")) or strcmp(caracter, String(";")) or strcmp(caracter, String(":")) or strcmp(caracter, String("?")) or strcmp(caracter, String("!")) or strcmp(caracter, String('"')) or strcmp(caracter, String('‘')) or strcmp(caracter, String('•')) or strcmp(caracter, String('“')) or strcmp(caracter, String('”')) or strcmp(caracter, String('´')) or strcmp(caracter, String("→")) or strcmp(caracter, String("ˆ")) or strcmp(caracter, String("^")) or strcmp(caracter, String("`")) or strcmp(caracter, String("†")) or strcmp(caracter, String("…")) or strcmp(caracter, String("∈")) or strcmp(caracter, String("~")) or strcmp(caracter, String("≥")) or caracter == "\n":
+    if ord(caracter) == ord(" ") or ord(caracter) == ord("(") or ord(caracter) == ord(")") or ord(caracter) == ord("[") or ord(caracter) == ord("]") or ord(caracter) == ord("{") or ord(caracter) == ord("}")or ord(caracter) == ord("<") or ord(caracter) == ord(">") or ord(caracter) == ord("+") or ord(caracter) == ord("=") or ord(caracter) == ord("*") or ord(caracter) == ord("/") or ord(caracter) == ord("\\") or ord(caracter) == ord("|") or ord(caracter) == ord("©") or ord(caracter) == ord("#") or ord(caracter) == ord("@") or ord(caracter) == ord("&") or ord(caracter) == ord(";") or ord(caracter) == ord(":") or ord(caracter) == ord("?") or ord(caracter) == ord("!") or ord(caracter) == ord('"') or ord(caracter) == ord('‘') or ord(caracter) == ord('•') or ord(caracter) == ord('“') or ord(caracter) == ord('”') or ord(caracter) == ord('´') or ord(caracter) == ord("→") or ord(caracter) == ord("ˆ") or ord(caracter) == ord("^") or ord(caracter) == ord("`") or ord(caracter) == ord("†") or ord(caracter) == ord("…") or ord(caracter) == ord("∈") or ord(caracter) == ord("~") or ord(caracter) == ord("≥") or caracter == "\n":
         return True
     else:
         # casos especiales que necesitan un poco más de procesamiento para decir si son saltables o no
@@ -117,7 +117,7 @@ def caracteres_separadores(linea, j):
         else:
             caracter_posterior_ooi = True
 
-        if strcmp(caracter, String("-")) or strcmp(caracter, String("−")) or strcmp(caracter, String("—")): # -−— palabras inglesas con guion y numeros negativos
+        if ord(caracter) == ord("-") or ord(caracter) == ord("−") or ord(caracter) == ord("—"): # -−— palabras inglesas con guion y numeros negativos
             if not caracter_anterior_ooi and not caracter_posterior_ooi:
                 if ascii_mayuscula(caracter_anterior) >= 65 and ascii_mayuscula(caracter_anterior) <= 90 and ascii_mayuscula(caracter_posterior) >= 65 and ascii_mayuscula(caracter_posterior) <= 90:  # Si el caracter anterior y posterior son letras del alfabeto entonces decidimos que esta es una palabra especial en ingles compuesta por dos palabras y un guion en el medio (65 y 90 son los limites de las letras mayusculas en la tabla ascii, revisamos solo esas porque ascii_mayuscula transforma las minusculas en mayusculas)
                     return False
@@ -135,7 +135,7 @@ def caracteres_separadores(linea, j):
                     return True  
             else: # si no tenemos los dos caracteres anterior y posterior en este caso podemos decir directamente que es un caracter que no nos sirve porque para ser el caso especial necesita los dos caracteres
                 return True
-        elif strcmp(caracter, String(".")) or strcmp(caracter, String(",")): # . , numeros con coma
+        elif ord(caracter) == ord(".") or ord(caracter) == ord(","): # . , numeros con coma
             if not caracter_anterior_ooi and not caracter_posterior_ooi:
                 if ord(caracter_anterior) <= 57 and ord(caracter_anterior) >= 48 and ord(caracter_posterior) <= 57 and ord(caracter_posterior) >= 48: # Si el caracter anterior y posterior son numeros entonces decidimos que este es un numero con coma (48 y 57 son los limites de los numeros en la tabla ascii)
                     return False
@@ -143,9 +143,9 @@ def caracteres_separadores(linea, j):
                     return True
             else: # si no tenemos los dos caracteres anterior y posterior en este caso podemos decir directamente que es un caracter que no nos sirve porque para ser el caso especial necesita los dos caracteres
                 return True 
-        elif strcmp(caracter, String("'")) or strcmp(caracter, String("’")): # ' ’ palabras inglesas con apostrofe
+        elif ord(caracter) == ord("'") or ord(caracter) == ord("’"): # ' ’ palabras inglesas con apostrofe
             if not caracter_anterior_ooi:
-                if buscar_caracter_en_palabra(String("'"),linea, j) or buscar_caracter_en_palabra(String("‘"),linea, j): #si existe otro apostrofe que lo cierra entonces lo estamos usando como comillas, las que no nos sirven para crear palabras
+                if buscar_caracter_en_palabra("'",linea, j) or buscar_caracter_en_palabra("‘",linea, j): #si existe otro apostrofe que lo cierra entonces lo estamos usando como comillas, las que no nos sirven para crear palabras
                     return True
                 elif ascii_mayuscula(caracter_anterior) >= 65 and ascii_mayuscula(caracter_anterior) <= 90: #si ademas de no tener otro apostrofe en la palabra como minimo tenemos una letra a la izquierda entonces la podemos considerar como util para formar una palabra en ingles (cosas como can't y el genitivo sajón)
                     return False
@@ -162,7 +162,7 @@ def buscar_caracter_en_palabra(caracter_a_buscar, linea, j):
 
     i = j - 1
     while i > 0: #revisamos la izquierda hasta llegar al limite de la linea o hasta llegar a un caracter separador (break más abajo)
-        if strcmp(linea[i], caracter_a_buscar): #si encontramos el caracter que buscabamos entonces devolvemos true
+        if ord(linea[i]) == ord(caracter_a_buscar): #si encontramos el caracter que buscabamos entonces devolvemos true
             return True
 
         if caracteres_separadores(linea, i): #esto se revisa despues porque si lo hacemos antes podria suceder un bucle infinito
@@ -171,7 +171,7 @@ def buscar_caracter_en_palabra(caracter_a_buscar, linea, j):
 
     i = j + 1
     while i < len(linea): #revisamos la derecha hasta llegar al limite de la linea o hasta llegar a un caracter separador (break más abajo)
-        if strcmp(linea[i], caracter_a_buscar): #si encontramos el caracter que buscabamos entonces devolvemos true
+        if ord(linea[i]) == ord(caracter_a_buscar): #si encontramos el caracter que buscabamos entonces devolvemos true
             return True
 
         if caracteres_separadores(linea, i): #esto se revisa despues porque si lo hacemos antes podria suceder un bucle infinito
